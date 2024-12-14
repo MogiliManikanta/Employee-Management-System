@@ -1,16 +1,53 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Login from "./pages/Login"; // Ensure this is the correct path to your Login component
-import AdminDashboard from "./pages/AdminDashboard"; // Ensure this is the correct path to your AdminDashboard component
+import Login from "./pages/Login";
+import AdminDashboard from "./pages/AdminDashboard";
 import EmployeeDashBoard from "./pages/EmployeeDashBoard";
+import PrivateRoutes from "./utils/PrivateRoutes";
+import RoleBasedRoutes from "./utils/RoleBasedRoutes";
+import AdminSummary from "./components/dashboard/AdminSummary";
+import Department from "./components/departments/Department";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to="/admin-dashboard" />} />
+        {/* Redirect root path to /login */}
+        <Route path="/" element={<Navigate to="/login" />} />
+
+        {/* Login route */}
         <Route path="/login" element={<Login />} />
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
-        <Route path="/employee-dashboard" element={<EmployeeDashBoard />} />
+
+        {/* Admin Dashboard with nested routes */}
+        <Route
+          path="/admin-dashboard"
+          element={
+            <PrivateRoutes>
+              <RoleBasedRoutes requiredRole={["admin"]}>
+                <AdminDashboard />
+              </RoleBasedRoutes>
+            </PrivateRoutes>
+          }
+        >
+          <Route index element={<AdminSummary />} />{" "}
+          {/* Default page for /admin-dashboard */}
+          <Route
+            path="/admin-dashboard/departments"
+            element={<Department />}
+          />{" "}
+          {/* Relative path */}
+        </Route>
+
+        {/* Employee Dashboard route */}
+        <Route
+          path="/employee-dashboard"
+          element={
+            <PrivateRoutes>
+              <RoleBasedRoutes requiredRole={["employee"]}>
+                <EmployeeDashBoard />
+              </RoleBasedRoutes>
+            </PrivateRoutes>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
