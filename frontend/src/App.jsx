@@ -6,6 +6,8 @@ import PrivateRoutes from "./utils/PrivateRoutes";
 import RoleBasedRoutes from "./utils/RoleBasedRoutes";
 import AdminSummary from "./components/dashboard/AdminSummary";
 import Department from "./components/departments/Department";
+import AddDepartment from "./components/departments/AddDepartment";
+import EditDepartment from "./components/departments/EditDepartment";
 
 function App() {
   return (
@@ -34,6 +36,14 @@ function App() {
             path="/admin-dashboard/departments"
             element={<Department />}
           />{" "}
+          <Route
+            path="/admin-dashboard/add-department"
+            element={<AddDepartment />}
+          />{" "}
+          <Route
+            path="/admin-dashboard/department/:id"
+            element={<EditDepartment />}
+          />
           {/* Relative path */}
         </Route>
 
