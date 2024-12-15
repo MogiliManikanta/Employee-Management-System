@@ -28,7 +28,7 @@ function AdminSidebar() {
           <span>Dashboard</span>
         </NavLink>
         <NavLink
-          to="/admin-employee"
+          to="/admin-dashboard/employees"
           className={({ isActive }) =>
             `${
               isActive ? "bg-teal-500" : ""
