@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { fetchDepartments } from "../../utils/EmployeeHelper";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Add() {
+  const navigate = useNavigate();
   const [departments, setDepartments] = useState([]);
   const [formData, setFormData] = useState({});
   useEffect(() => {
@@ -20,30 +23,30 @@ function Add() {
       setFormData((prevData) => ({ ...prevData, [name]: value }));
     }
   };
-  function handleSubmit=(e)=>{
+  async function handleSubmit(e) {
     e.preventDefault();
     const formDataObj = new FormData();
-    Object.keys(formData).forEach((key)=>{
-      formDataObj.append(key,formData[key])
-    })
+    Object.keys(formData).forEach((key) => {
+      formDataObj.append(key, formData[key]);
+    });
     try {
-        const response = await axios.post(
-          "http://localhost:5000/api/employee/add",
-          formDataObj,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        if (response.data.success) {
-          navigate("/admin-dashboard/employees");
+      const response = await axios.post(
+        "http://localhost:5000/api/employee/add",
+        formDataObj,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
-      } catch (error) {
-        if (error.response && !error.response.data.success) {
-          alert(error.response.data.error);
-        }
+      );
+      if (response.data.success) {
+        navigate("/admin-dashboard/employees");
       }
+    } catch (error) {
+      if (error.response && !error.response.data.success) {
+        alert(error.response.data.error);
+      }
+    }
   }
 
   return (
@@ -180,7 +183,7 @@ function Add() {
               Salary
             </label>
             <input
-              type="salary"
+              type="number"
               onChange={handleChange}
               name="salary"
               placeholder="Salary"

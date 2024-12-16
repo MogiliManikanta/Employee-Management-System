@@ -3,17 +3,17 @@ const authMiddleware = require("../middleware/authMiddleware");
 const {
   addEmployee,
   upload,
-  //   getDepartment,
-  //   editDepartment,
-  //   updateDepartment,
+  getEmployees,
+  getEmployee,
+  updateEmployee,
   //   deleteDepartment,
 } = require("../controllers/employeeController");
 
 const router = express.Router();
 router.post("/add", authMiddleware, upload.single("image"), addEmployee);
-// router.get("/", authMiddleware, getDepartment);
-// router.get("/:id", authMiddleware, editDepartment);
-// router.put("/:id", authMiddleware, updateDepartment);
+router.get("/", authMiddleware, getEmployees);
+router.get("/:id", authMiddleware, getEmployee);
+router.put("/:id", authMiddleware, updateEmployee);
 // router.delete("/:id", authMiddleware, deleteDepartment);
 
 module.exports = router;
