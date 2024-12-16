@@ -22,10 +22,14 @@ function Add() {
   };
   function handleSubmit=(e)=>{
     e.preventDefault();
+    const formDataObj = new FormData();
+    Object.keys(formData).forEach((key)=>{
+      formDataObj.append(key,formData[key])
+    })
     try {
         const response = await axios.post(
-          "http://localhost:5000/api/department/add",
-          department,
+          "http://localhost:5000/api/employee/add",
+          formDataObj,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -33,7 +37,7 @@ function Add() {
           }
         );
         if (response.data.success) {
-          navigate("/admin-dashboard/departments");
+          navigate("/admin-dashboard/employees");
         }
       } catch (error) {
         if (error.response && !error.response.data.success) {
