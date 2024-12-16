@@ -36,7 +36,12 @@ export const EmployeeButtons = ({ Id }) => {
       >
         Edit
       </button>{" "}
-      <button className="px-3 py-1 bg-yellow-700 text-white">Salary</button>{" "}
+      <button
+        className="px-3 py-1 bg-yellow-700 text-white"
+        onClick={() => navigate(`/admin-dashboard/employee/salary/${Id}`)}
+      >
+        Salary
+      </button>{" "}
       <button className="px-3 py-1 bg-red-600 text-white">Leave</button>
     </div>
   );
@@ -78,3 +83,29 @@ export const columns = [
     center: true,
   },
 ];
+
+//employees for salary
+
+export const getEmployees = async (id) => {
+  let employees;
+  try {
+    const response = await axios.get(
+      `http://localhost:5000/api/employee/department/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    console.log(response.data.employees);
+    if (response.data.success) {
+      employees = response.data.employees;
+    }
+  } catch (error) {
+    if (error.response && !error.response.data.success) {
+      alert(error.response.data.error);
+    }
+  }
+
+  return employees || [];
+};

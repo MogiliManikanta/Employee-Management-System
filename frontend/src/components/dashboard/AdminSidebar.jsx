@@ -61,7 +61,7 @@ function AdminSidebar() {
           <span>Leave</span>
         </NavLink>
         <NavLink
-          to="/admin-salary"
+          to="/admin-dashboard/salary/add"
           className={({ isActive }) =>
             `${
               isActive ? "bg-teal-500" : ""
