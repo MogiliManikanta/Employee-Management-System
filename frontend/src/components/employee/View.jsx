@@ -16,6 +16,7 @@ function View() {
             },
           }
         );
+        console.log(response.data);
         if (response.data.success) {
           setEmployee(response.data.employee);
         }

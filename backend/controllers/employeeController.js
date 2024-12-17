@@ -108,13 +108,38 @@ const getEmployees = async (req, res) => {
 
 const getEmployee = async (req, res) => {
   const { id } = req.params;
+
+  // Validate ObjectId
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ success: false, error: "Invalid ID format" });
+  }
+
   try {
-    const employee = await Employee.findById({ _id: id })
+    let employee;
+
+    // First attempt: Find by _id
+    employee = await Employee.findById(id)
       .populate("userId", { password: 0 })
       .populate("department");
-    return res.status(200).json({ success: true, employee }); // Updated key
+
+    // Second attempt: Find by userId if employee not found
+    if (!employee) {
+      employee = await Employee.findOne({ userId: id })
+        .populate("userId", { password: 0 })
+        .populate("department");
+    }
+
+    // console.log("Fetched Employee:", employee); // Debugging log
+
+    if (!employee) {
+      return res
+        .status(404)
+        .json({ success: false, error: "Employee not found" });
+    }
+
+    return res.status(200).json({ success: true, employee });
   } catch (error) {
-    console.error(error); // Log the error
+    // console.error("Error fetching employee:", error);
     return res
       .status(500)
       .json({ success: false, error: "get employee server error" });
