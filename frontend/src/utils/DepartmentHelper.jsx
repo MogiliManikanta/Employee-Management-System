@@ -30,7 +30,7 @@ async function handleDelete(id, onDepartmentDelete) {
         }
       );
       if (response.data.success) {
-        onDepartmentDelete(id); // Call the function to remove from the list
+        onDepartmentDelete(); // Call the function to remove from the list
       }
     } catch (error) {
       if (error.response && !error.response.data.success) {

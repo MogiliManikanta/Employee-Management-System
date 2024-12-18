@@ -9,49 +9,48 @@ function Department() {
   const [depLoading, setDepLoading] = useState(false);
   const [filteredDepartments, setFilteredDepartments] = useState([]);
 
-  useEffect(() => {
-    const fetchDepartments = async () => {
-      setDepLoading(true);
-      try {
-        const response = await axios.get(
-          "http://localhost:5000/api/department",
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        if (response.data.success) {
-          const data = response.data.departments.map((dep, index) => ({
-            _id: dep._id,
-            sno: index + 1, // Use index for serial number
-            dep_name: dep.dep_name,
-            action: (
-              <DepartmentButtons
-                Id={dep._id}
-                onDepartmentDelete={onDepartmentDelete}
-              />
-            ),
-          }));
-          setDepartments(data); // Update the state with fetched data
-          setFilteredDepartments(data);
-        }
-      } catch (error) {
-        if (error.response && !error.response.data.success) {
-          alert(error.response.data.error);
-        }
-      } finally {
-        setDepLoading(false);
+  const fetchDepartments = async () => {
+    setDepLoading(true);
+    try {
+      const response = await axios.get("http://localhost:5000/api/department", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      if (response.data.success) {
+        const data = response.data.departments.map((dep, index) => ({
+          _id: dep._id,
+          sno: index + 1, // Use index for serial number
+          dep_name: dep.dep_name,
+          action: (
+            <DepartmentButtons
+              Id={dep._id}
+              onDepartmentDelete={onDepartmentDelete}
+            />
+          ),
+        }));
+        setDepartments(data); // Update the state with fetched data
+        setFilteredDepartments(data);
       }
-    };
+    } catch (error) {
+      if (error.response && !error.response.data.success) {
+        alert(error.response.data.error);
+      }
+    } finally {
+      setDepLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchDepartments();
   }, []);
 
-  const onDepartmentDelete = (id) => {
+  const onDepartmentDelete = () => {
     // Update the state by filtering out the deleted department
-    setDepartments((prevDepartments) =>
-      prevDepartments.filter((dep) => dep._id !== id)
-    );
+    // setDepartments((prevDepartments) =>
+    //   prevDepartments.filter((dep) => dep._id !== id)
+    // );
+    fetchDepartments();
   };
 
   function filterDepartments(e) {

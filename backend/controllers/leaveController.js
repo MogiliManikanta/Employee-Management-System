@@ -26,14 +26,31 @@ const addLeave = async (req, res) => {
 const getLeaves = async (req, res) => {
   try {
     const { id } = req.params;
-    const leaves = await Leave.find({ employeeId: id });
-    if (!leaves) {
+
+    // Fetch leaves directly for the employeeId
+    let leaves = await Leave.find({ employeeId: id });
+
+    // If no leaves are found, try to fetch employee by userId and get leaves
+    if (!leaves || leaves.length === 0) {
       const employee = await Employee.findOne({ userId: id });
-      leaves = await Leave.find({ employeeId: employee._id });
+
+      // Ensure employee exists before querying for leaves
+      if (employee) {
+        leaves = await Leave.find({ employeeId: employee._id });
+      }
+      // else {
+      //   return res
+      //     .status(404)
+      //     .json({ success: false, error: "Employee not found" });
+      // }
     }
+
+    // console.log(leaves);
+
+    // Return the response
     return res.status(200).json({ success: true, leaves });
   } catch (error) {
-    console.log(error.meaasge);
+    console.log(error.message); // Fixed the typo
     return res
       .status(500)
       .json({ success: false, error: "leave get server error" });
