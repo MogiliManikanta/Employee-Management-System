@@ -18,6 +18,8 @@ import EmployeeSummaryCard from "./components/EmployeeDashboard/EmployeeSummary"
 import LeaveList from "./components/leave/LeaveList";
 import LeaveAdd from "./components/leave/LeaveAdd";
 import Setting from "./components/EmployeeDashboard/Setting";
+import Table from "./components/leave/Table";
+import LeaveDetail from "./components/leave/LeaveDetail";
 
 function App() {
   return (
@@ -62,11 +64,18 @@ function App() {
             element={<Edit />}
           />{" "}
           <Route
-            path="/admin-dashboard/employee/salary/:id"
+            path="/admin-dashboard/employees/salary/:id"
             element={<ViewSalary />}
           />{" "}
+          <Route
+            path="/admin-dashboard/employees/leaves/:id"
+            element={<LeaveList />}
+          />
           {/* Relative path */}
           <Route path="/admin-dashboard/salary/add" element={<AddSalary />} />
+          <Route path="/admin-dashboard/leaves" element={<Table />} />
+          <Route path="/admin-dashboard/leaves/:id" element={<LeaveDetail />} />
+          <Route path="/admin-dashboard/settings" element={<Setting />} />
         </Route>
 
         {/* Employee Dashboard route */}
@@ -82,7 +91,10 @@ function App() {
         >
           <Route index element={<EmployeeSummaryCard />} />
           <Route path="/employee-dashboard/profile/:id" element={<View />} />
-          <Route path="/employee-dashboard/leaves" element={<LeaveList />} />
+          <Route
+            path="/employee-dashboard/leaves/:id"
+            element={<LeaveList />}
+          />
           <Route path="/employee-dashboard/add-leave" element={<LeaveAdd />} />
           <Route
             path="/employee-dashboard/salary/:id"

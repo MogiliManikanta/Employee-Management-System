@@ -50,7 +50,7 @@ function AdminSidebar() {
           <span>Department</span>
         </NavLink>
         <NavLink
-          to="/admin-leave"
+          to="/admin-dashboard/leaves"
           className={({ isActive }) =>
             `${
               isActive ? "bg-teal-500" : ""
@@ -72,7 +72,7 @@ function AdminSidebar() {
           <span>Salary</span>
         </NavLink>
         <NavLink
-          to="/admin-settings"
+          to="/admin-dashboard/settings"
           className={({ isActive }) =>
             `${
               isActive ? "bg-teal-500" : ""
