@@ -19,6 +19,7 @@ function viewSalary() {
       );
       console.log(response.data);
       if (response.data.success) {
+        console.log(response);
         setSalaries(response.data.salary);
         setFilteredSalaries(response.data.salary);
       }
@@ -86,7 +87,7 @@ function viewSalary() {
                     >
                       <td className="px-6 py-3 font-medium">{index + 1}</td>
                       <td className="px-6 py-3">
-                        {salary.employeeId.employeeId}
+                        {salary.employeeId.employeeId || salary.employeeId._id}
                       </td>
                       <td className="px-6 py-3">{salary.basicSalary}</td>
                       <td className="px-6 py-3">{salary.allowances}</td>
