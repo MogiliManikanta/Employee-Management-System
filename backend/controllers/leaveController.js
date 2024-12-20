@@ -25,13 +25,14 @@ const addLeave = async (req, res) => {
 
 const getLeaves = async (req, res) => {
   try {
-    const { id } = req.params;
-
-    // Fetch leaves directly for the employeeId
-    let leaves = await Leave.find({ employeeId: id });
-
+    const { id, role } = req.params;
+    let leaves;
+    if (role === "admin") {
+      // Fetch leaves directly for the employeeId
+      leaves = await Leave.find({ employeeId: id });
+    }
     // If no leaves are found, try to fetch employee by userId and get leaves
-    if (!leaves || leaves.length === 0) {
+    else {
       const employee = await Employee.findOne({ userId: id });
 
       // Ensure employee exists before querying for leaves

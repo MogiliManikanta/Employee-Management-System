@@ -8,6 +8,7 @@ const employeeRouter = require("./routes/employee");
 const salaryRouter = require("./routes/salary");
 const leaveRouter = require("./routes/leave");
 const settingRouter = require("./routes/setting");
+const dashboardRouter = require("./routes/dashboard");
 dotEnv.config();
 const app = express();
 app.use(cors());
@@ -20,6 +21,7 @@ app.use("/api/employee", employeeRouter);
 app.use("/api/salary", salaryRouter);
 app.use("/api/leave", leaveRouter);
 app.use("/api/setting", settingRouter);
+app.use("/api/dashboard", dashboardRouter);
 app.listen(process.env.PORT, () =>
   console.log(`Server is running on port ${process.env.PORT}`)
 );

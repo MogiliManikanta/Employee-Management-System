@@ -1,16 +1,19 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useAuth } from "../../context/authContext";
 
 function viewSalary() {
   const [salaries, setSalaries] = useState([]);
   const [filteredSalaries, setFilteredSalaries] = useState([]);
   const { id } = useParams();
   let sno = 1;
+  const { user } = useAuth();
+
   const fetchSalaries = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/salary/${id}`,
+        `http://localhost:5000/api/salary/${id}/${user.role}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -25,7 +28,7 @@ function viewSalary() {
       }
     } catch (error) {
       if (error.response && !error.response.data.success) {
-        alert(error.message);
+        // alert(error.message);
       }
     }
   };

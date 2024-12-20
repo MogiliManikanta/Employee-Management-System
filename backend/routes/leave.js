@@ -10,8 +10,9 @@ const {
 
 const router = express.Router();
 router.post("/add", authMiddleware, addLeave);
-router.get("/:id", authMiddleware, getLeaves);
-router.get("/", authMiddleware, allLeaves);
 router.get("/detail/:id", authMiddleware, getDetails);
+
+router.get("/:id/:role", authMiddleware, getLeaves);
+router.get("/", authMiddleware, allLeaves);
 router.put("/:id", authMiddleware, updateLeaveStatus);
 module.exports = router;
